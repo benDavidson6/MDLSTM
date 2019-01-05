@@ -88,7 +88,6 @@ def append_dims(inputs):
 
 
 if __name__ == '__main__':
-    train_model()
     if sys.argv[1] == 'train':
         train_model()
     elif sys.argv[1] == 'inspect':
