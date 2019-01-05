@@ -39,7 +39,8 @@ and one which attempts to be more stable:
 <p align="center"><img alt="$$ci + \dfrac{c_{\text{up}}f_1 + c_{\text{left}}f_2}{f_1 + f_2}(1 - i).$$" src="./svgs/b0e14f6eb8534349faaad143e2205eb9.svg" align="middle" width="188.2454706pt" height="37.0084374pt"/></p>
 The later tries to keep the resulting cell state bounded as <p align="center"><img alt="$$|c_{\text{up}}|, |c_{\text{left}}| &lt; 1 \implies |c_\text{new}| &lt; 1.$$" src="./svgs/7dd36bd860d564592505ae46817f8e6f.svg" align="middle" width="223.88681534999998pt" height="17.031940199999998pt"/></p>
 
-##Examples
+## Examples
+
 ### Locate cone photoreceptors
 ![](./images/example.jpg)
 ### Toy dataset
