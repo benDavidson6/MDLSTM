@@ -61,7 +61,7 @@ def train_model():
     run_name = 'mdlstm'
     trainer = Trainer(run_name, model, ['validation', 'training'])
     trainer.add_early_stopping(dataset_name='validation')
-    trainer.train(epochs=20)
+    trainer.train(epochs=5)
 
 
 def show_circle_model():
@@ -69,7 +69,7 @@ def show_circle_model():
     outputs = {'pred':'prediction'}
     f = ForwardModel(model_path, outputs)
 
-    for im, gt in CircleData._generator():
+    for im, gt in CircleData._generator(10):
         net_out = f({'image':im})
         pred = net_out['pred'][0]
 
@@ -88,12 +88,13 @@ def append_dims(inputs):
 
 
 if __name__ == '__main__':
+    train_model()
     if sys.argv[1] == 'train':
         train_model()
     elif sys.argv[1] == 'inspect':
         # build only forward model
         run_name = 'mdlstm'
-        model_step = 2
+        model_step = 4
         net = MDLSTMNet(units=16)
         builder = InferenceBuilder(run_name, model_step, net)
 

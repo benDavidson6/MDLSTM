@@ -10,7 +10,7 @@ class CircleData(Dataset):
     nx, ny = 256, 256
 
     @staticmethod
-    def _generator():
+    def _generator(steps):
         # modified from the UNET implementation
         # here https://github.com/jakeret/tf_unet
         nx, ny = CircleData.nx, CircleData.ny
@@ -19,7 +19,7 @@ class CircleData(Dataset):
         r_min = 5
         r_max = 50
         sigma = 15
-        for _ in range(200):
+        for _ in range(steps):
             image = np.ones((nx, ny, 1))
             label = np.zeros((nx, ny, 2), dtype=np.bool)
             mask = np.zeros((nx, ny), dtype=np.bool)
@@ -47,7 +47,7 @@ class CircleData(Dataset):
     def build_train_dataset(self):
         nx, ny = CircleData.nx, CircleData.ny
         dataset = tf.data.Dataset.from_generator(
-            generator=CircleData._generator,
+            generator=lambda: CircleData._generator(200),
             output_types=(tf.float32, tf.float32),
             output_shapes=([nx, ny, 1], [nx, ny, 2]))
         dataset = dataset.batch(1)
@@ -57,7 +57,7 @@ class CircleData(Dataset):
     def build_validation_dataset(self):
         nx, ny = CircleData.nx, CircleData.ny
         dataset = tf.data.Dataset.from_generator(
-            generator=CircleData._generator,
+            generator=lambda: CircleData._generator(20),
             output_types=(tf.float32, tf.float32),
             output_shapes=([nx, ny, 1], [nx, ny, 2]))
         dataset = dataset.batch(1)
@@ -66,7 +66,7 @@ class CircleData(Dataset):
 
     def build_pipeline(self):
         train_dataset = self.build_train_dataset()
-        val_dataset = self.build_train_dataset()
+        val_dataset = self.build_validation_dataset()
         self.add_tf_dataset('training', train_dataset)
         self.add_tf_dataset('validation', val_dataset)
         image, label = self.iterator.get_next()
